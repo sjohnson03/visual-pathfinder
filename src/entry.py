@@ -48,4 +48,4 @@ def createEntry(width: int, height: int) -> tuple:
     
     
     
-print(createEntry())
+print(createEntry(20,20))
