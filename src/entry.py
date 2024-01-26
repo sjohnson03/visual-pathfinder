@@ -2,11 +2,14 @@ import tkinter as tk
 from tkinter import messagebox
 
 def isInt(value):
+    if not value:
+        return False
     try:
         int(value)
         return True
     except ValueError:
         return False
+    
 
 def createEntry(width: int, height: int) -> tuple:
     start = ()
@@ -14,12 +17,15 @@ def createEntry(width: int, height: int) -> tuple:
         nonlocal start
         startX = startXEntry.get()
         startY = startYEntry.get()
-        
         # Validate entry
         if not isInt(startX) or not isInt(startY):
-            messagebox.showerror("Error", "Please enter a valid interger value")
+            messagebox.showerror("Error", "Please enter a valid interger value!")
             return
-        
+        startX, startY = abs(int(startX)), abs(int(startY))
+        if startX >= width or startY >= height:
+            messagebox.showerror("Index out of bounds", f"Please enter coordinates between ({width}, {height})")
+            return
+            
         start = (int(startX), int(startY))
         window.destroy()
         
@@ -46,6 +52,3 @@ def createEntry(width: int, height: int) -> tuple:
     
     return start
     
-    
-    
-print(createEntry(20,20))
