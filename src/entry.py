@@ -22,6 +22,7 @@ def createEntry(width: int, height: int) -> tuple:
         
         if endX == startX and endY == startY:
             messagebox.showerror("Error", "Start coordinate must be different to end coordinate")
+            return
         # Validate entry
         if not isInt(startX) or not isInt(startY) or not isInt(endX) or not isInt(endY):
             messagebox.showerror("Error", "Please enter a valid interger value!")
@@ -63,7 +64,7 @@ def createEntry(width: int, height: int) -> tuple:
     endYEntry.grid(row=1, column=3, padx=10, pady=10)
     
     submitBut = tk.Button(window, text="Submit", command=onSubmit)
-    submitBut.grid(row=2, column=0, columnspan=2, pady=10)
+    submitBut.grid(row=2, column=0, columnspan=4, pady=10)  # Placed below, spanning all columns
     
     window.mainloop()
     
