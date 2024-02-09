@@ -9,6 +9,7 @@ A simple application that visualized the A* algorithm.
 ```
 python src/main.py
 ```
+Once running, enter start and end coordinates for the algorithm. These values by default are between 0 and 40. You can then draw obstacles which must be searched around. Once all obstacles are placed, press <kbd>Return</kbd> to begin the algorithm.
 
 
 ## Contributing
