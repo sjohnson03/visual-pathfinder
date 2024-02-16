@@ -33,8 +33,8 @@ class Window():
                 if grid[i][j]:
                     pygame.draw.rect(self.screen, "white", rect, 10)
                 else:
-                    rect = pygame.Rect(i * BLOCKSIZE, j *BLOCKSIZE, BLOCKSIZE, BLOCKSIZE)
-                    pygame.draw.rect(self.screen, "white", rect, 1)
+                    pygame.draw.rect(self.screen, "black", rect, 10)
+                pygame.draw.rect(self.screen, "white", rect, 1)
     
     
     def setup(self) -> int:
@@ -46,16 +46,16 @@ class Window():
             
         Returns:
                 1 - grid has been setup  \n
-                2 - application closed
+                0 - application closed
         """
         self.running = True
         (start, end) = createEntry(WIDTH / BLOCKSIZE, HEIGHT / BLOCKSIZE)
 
         (startX, startY) = start
-        self.grid[startX][startY] = NodeStatus.START
+        self.grid[startY][startX] = NodeStatus.START
 
         (endX, endY) = end
-        self.grid[endX][endY] = NodeStatus.GOAL
+        self.grid[endY][endX] = NodeStatus.GOAL
         
         while self.running:
             
@@ -66,21 +66,36 @@ class Window():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-    
+                    
+            self.screen.fill("black")
+            
             x, y = pygame.mouse.get_pos()
             (mousePosX, mousePosY) = (x//BLOCKSIZE, y//BLOCKSIZE)
-            (mouse1Pressed, _, _) = pygame.mouse.get_pressed()
-            try:
-                if not self.grid[mousePosX][mousePosY]:
-                    self.grid[mousePosX][mousePosY] = mouse1Pressed
+            (mouse1Pressed, _, mouse2Pressed) = pygame.mouse.get_pressed()
+            if mouse1Pressed:
+                try:
+                    if not self.grid[mousePosX][mousePosY]:
+                        self.grid[mousePosX][mousePosY] = mouse1Pressed
+                except IndexError:
                     self.drawGrid(self.grid)
-            except IndexError:
-                self.drawGrid(self.grid)
+                    
+            elif mouse2Pressed:
+                try:
+                    if self.grid[mousePosX][mousePosY] != NodeStatus.START and self.grid[mousePosX][mousePosY] != NodeStatus.GOAL:
+                        self.grid[mousePosX][mousePosY] = False
+                except IndexError:
+                    self.drawGrid(self.grid)
+                    
+            self.drawGrid(self.grid)
 
             # flip() the display to put your work on screen
             pygame.display.flip()
         pygame.quit()
-        return 2
+        return 0
         
     def getGrid(self) -> List[List[any]]:
         return self.grid
+    
+if __name__ == "__main__":
+    w = Window()
+    w.setup()
