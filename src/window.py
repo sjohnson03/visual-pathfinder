@@ -16,6 +16,8 @@ class Window():
         self.height = height
         self.width = width
         self.blocksize = blocksize
+        self.start = (0,0)
+        self.end = (0,0)
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.running = False
@@ -26,15 +28,24 @@ class Window():
                 rect = pygame.Rect(i * BLOCKSIZE, j *BLOCKSIZE, BLOCKSIZE, BLOCKSIZE)
                 if grid[i][j] == NodeStatus.START:
                     pygame.draw.rect(self.screen, "blue", rect, 10)
+                    self.start = (i,j)
                     continue
                 if grid[i][j] == NodeStatus.GOAL:
                     pygame.draw.rect(self.screen, "orange", rect, 10)
+                    self.end = (i,j)
+                    continue
+                if grid[i][j] == NodeStatus.EXPLORED:
+                    pygame.draw.rect(self.screen, "purple", rect, 10)
+                    continue
+                if grid[i][j] == NodeStatus.EXPLORING:
+                    pygame.draw.rect(self.screen, "pink", rect, 10)
                     continue
                 if grid[i][j]:
-                    pygame.draw.rect(self.screen, "white", rect, 10)
+                    pygame.draw.rect(self.screen, "white", rect, 10)                   
                 else:
                     pygame.draw.rect(self.screen, "black", rect, 10)
                 pygame.draw.rect(self.screen, "white", rect, 1)
+        pygame.display.flip()
     
     
     def setup(self) -> int:
