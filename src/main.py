@@ -1,8 +1,8 @@
+import sys
+from time import sleep
 from window import Window
 from nodestatus import NodeStatus
-import math
 import heapq
-import pygame
 
 def distance(x1,y1,x2,y2):
     return abs(x2-x1) + abs(y2-y1)
@@ -40,7 +40,6 @@ def aSearch(grid, window: Window):
 
     # Trace the path from source to destination
     def trace_path(cell_details, dest):
-        print("The Path is ")
         path = []
         row = dest[0]
         col = dest[1]
@@ -54,18 +53,11 @@ def aSearch(grid, window: Window):
             temp_col = cell_details[row][col].parent_j
             row = temp_row
             col = temp_col
-
+            
         # Add the source cell to the path
         path.append((row, col))
         # Reverse the path to get the path from source to destination
         path.reverse()
-
-        # Print the path
-        for i in path:
-            print("->", i, end=" ")
-        print()
-        if pygame.key.get_pressed()[pygame.K_RETURN]:
-            return 1
 
     # Implement the A* search algorithm
     def a_star_search(grid, src, dest):
@@ -130,7 +122,6 @@ def aSearch(grid, window: Window):
                         # Set the parent of the destination cell
                         cell_details[new_i][new_j].parent_i = i
                         cell_details[new_i][new_j].parent_j = j
-                        print("The destination cell is found")
                         # Trace and print the path from source to destination
                         trace_path(cell_details, dest)
                         found_dest = True
@@ -173,50 +164,12 @@ def aSearch(grid, window: Window):
         a_star_search(grid, src, dest)
     main()
 
-    # sx = window.start[0]
-    # sy = window.start[1]
-    # ex = window.end[0]
-    # ey = window.end[1]
-    # m = distance(sx, sy, ex, ey)
-    # start = [sx, sy, m,0]
-    # end = [ex, ey, 0, m]
-    # points = []
-    # for i in range(40):
-    #     points.append([])
-    #     for j in range(40):
-    #         points[i].append([i,j,distance(i,j,ex,ey),1000])
-    #         if not window.grid[i][j]:
-    #             points[i][j][3] = 10000
-    # while (start[0]!=end[0])and(end[1],end[1]):
-    #     window.grid[start[0]][start[1]] = NodeStatus.EXPLORED
-    #     if start[0]>0:
-    #         points[start[0]-1][start[1]][3] = start[3]+1
-    #         window.grid[start[0]-1][start[1]] = NodeStatus.EXPLORING
-    #     if start[0]<39:
-    #         points[start[0]+1][start[1]][2] = start[3]+1
-    #         window.grid[start[0]+1][start[1]] = NodeStatus.EXPLORING
-    #     if start[1]>0:
-    #         points[start[0]][start[1]-1][2] = start[3]+1
-    #         window.grid[start[0]][start[1]-1] = NodeStatus.EXPLORING
-    #     if start[1]<39:
-    #         points[start[0]][start[1]+1][2] = start[3]+1
-    #         window.grid[start[0]][start[1]+1] = NodeStatus.EXPLORING
-    #     start[3]=1000
-    #     lowest = [0,0,1000,1000]
-    #     window.drawGrid(window.grid)
-    #     for i in range(40):
-    #         for j in range(40):
-    #             if (points[i][j][2]+points[i][j][3]) < (lowest[2]+lowest[3]):
-    #                 lowest = points[i][j]
-    #                 print(lowest[0])
-    #                 print(lowest[1])
-        
-    #[x,y,h,c]
-
 w = Window()
 if w.setup():
     grid = w.getGrid()
     aSearch(grid, w)
+    sleep(10)
+    sys.exit()
     
 
 
